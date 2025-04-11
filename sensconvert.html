@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Krunker Sens ↔ cm/360 Converter</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #121212;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2em;
+    }
+    h1 {
+      margin-bottom: 1em;
+    }
+    .converter {
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+      background: #1e1e1e;
+      padding: 2em;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #000;
+    }
+    input, button {
+      padding: 0.5em;
+      font-size: 1em;
+      width: 200px;
+    }
+    .output {
+      font-size: 1.3em;
+      margin-top: 1em;
+      color: #00ffae;
+    }
+  </style>
+</head>
+<body>
+  <h1>Krunker Sens ↔ cm/360</h1>
+  <div class="converter">
+    <label>DPI: <input id="dpi" type="number" value="800"></label>
+
+    <label>Krunker Sens: <input id="sens" type="number" step="0.01" value="0.5"></label>
+    <button onclick="convertToCm()">Convert to cm/360</button>
+
+    <label>cm/360: <input id="cm" type="number" step="0.001" value="41.56075"></label>
+    <button onclick="convertToSens()">Convert to Krunker Sens</button>
+
+    <div class="output" id="output"></div>
+  </div>
+
+  <script>
+    const K_FACTOR = 6649.72;
+
+    function convertToCm() {
+      const dpi = parseFloat(document.getElementById('dpi').value);
+      const sens = parseFloat(document.getElementById('sens').value);
+      if (dpi > 0 && sens > 0) {
+        const cm = K_FACTOR / (dpi * sens);
+        document.getElementById('output').textContent = `cm/360 = ${cm.toFixed(5)} cm`;
+      } else {
+        document.getElementById('output').textContent = "Enter valid DPI and Sens.";
+      }
+    }
+
+    function convertToSens() {
+      const dpi = parseFloat(document.getElementById('dpi').value);
+      const cm = parseFloat(document.getElementById('cm').value);
+      if (dpi > 0 && cm > 0) {
+        const sens = K_FACTOR / (dpi * cm);
+        document.getElementById('output').textContent = `Krunker Sens = ${sens.toFixed(5)}`;
+      } else {
+        document.getElementById('output').textContent = "Enter valid DPI and cm/360.";
+      }
+    }
+  </script>
+</body>
+</html>
